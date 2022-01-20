@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-rust
+  name: rust
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo-rust
+  template:
+    metadata:
+      labels:
+        app: demo-rust
+    spec:
+      containers:
+      - image: parca-demo:rust
+        name: parca-demo
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'
