@@ -5,7 +5,8 @@ You can choose to deploy demo applications in various languages to that cluster 
 
 ## Lanaguages
 
-Go is currently fully supported and other languages work better or worse.
+Go is currently fully supported.  
+We're actively working on improving support for other languages.  
 Here is a list of issues where we track the progress:
 
 * Rust
@@ -42,5 +43,17 @@ Note: This will take some time to pull down base images and build each language'
 
 At the end you should have a demo for each language in the cluster.
 
+## Usage
+
 Access Parca by port-forwarding to it by running: `kubectl port-forward -n parca svc/parca 7070`.
 Open http://localhost:7070/
+
+Once you selected the profile type you want to see (currently only CPU Samples) you can query for languages by using these selectors:
+```
+
+namespace="parca", pod=~"go-.*"
+namespace="parca", pod=~"rust-.*"
+namespace="parca", pod=~"python-.*"
+namespace="parca", pod=~"nodejs-.*"
+namespace="parca", pod=~"java-.*"
+```

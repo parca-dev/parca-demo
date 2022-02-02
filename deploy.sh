@@ -20,4 +20,14 @@ echo "Building the Python demo"
 docker build -t parca-demo:python ./python
 kubectl apply -f ./python/deployment.yaml
 
+echo "Building the NodeJS demo"
+
+docker build -t parca-demo:nodejs ./nodejs
+kubectl apply -f ./nodejs/deployment.yaml
+
+echo "Building the Java demo"
+
+docker build -t parca-demo:java ./java
+kubectl apply -f ./java/deployment.yaml
+
 echo "Connect to Parca by running: kubectl port-forward -n parca svc/parca 7070"

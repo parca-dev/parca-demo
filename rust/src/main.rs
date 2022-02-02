@@ -22,6 +22,7 @@ fn main() {
     mem.join().unwrap();
 }
 
+#[inline(never)]
 fn fibonacci(n: u64) -> u64 {
     match n {
         0 => panic!("zero not allowed"),
