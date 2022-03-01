@@ -17,7 +17,7 @@ spec:
         app: demo-nextjs
     spec:
       containers:
-      - image: parca-demo:nextjs-fixed
+      - image: parca-demo:nextjs
         name: parca-demo-nextjs
         resources:
           limits:
