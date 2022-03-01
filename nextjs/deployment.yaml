@@ -1,0 +1,63 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-nextjs
+  name: nextjs
+  namespace: parca
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-nextjs
+  template:
+    metadata:
+      labels:
+        app: demo-nextjs
+    spec:
+      containers:
+      - image: parca-demo:nextjs-fixed
+        name: parca-demo-nextjs
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'
+        ports:
+        - containerPort: 5000
+          name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: demo-nextjs
+  name: demo-nextjs
+  namespace: parca
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 5000
+    targetPort: 5000
+  selector:
+    app: demo-nextjs
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: demo-nextjs
+  namespace: parca
+  labels:
+    serviceMonitor: demo-nextjs
+    prometheus: k8s
+spec:
+  selector:
+    matchLabels:
+      service: demo-nextjs
+  namespaceSelector:
+    matchNames:
+    - parca
+  endpoints:
+  - port: http
+    path: /api/metrics
