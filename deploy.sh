@@ -5,7 +5,7 @@ eval $(minikube -p parca-demo docker-env)
 kubectl apply -f https://github.com/parca-dev/parca/releases/download/v0.8.1/kubernetes-manifest.yaml
 kubectl apply -f https://github.com/parca-dev/parca-agent/releases/download/v0.5.0/kubernetes-manifest.yaml
 
-./setup-prometheus.sh
+source ./kube-prometheus/monitoring-deploy.sh
 
 echo "Building the Go demo"
 

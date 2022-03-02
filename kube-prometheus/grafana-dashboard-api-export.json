@@ -98,7 +98,7 @@
           {
             "datasource": { "type": "prometheus", "uid": "P1809F7CD0C75ACF3" },
             "exemplar": true,
-            "expr": "histogram_quantile(0.5, rate(nextjs_random_api_response_time_bucket[5m]))",
+            "expr": "histogram_quantile(0.5, rate(nextjs_api_random_response_time_bucket[5m]))",
             "interval": "",
             "legendFormat": "95th percentile response time",
             "refId": "A"
