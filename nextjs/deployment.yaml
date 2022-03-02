@@ -35,7 +35,7 @@ metadata:
   name: demo-nextjs
   namespace: parca
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
   - name: http
     port: 5000

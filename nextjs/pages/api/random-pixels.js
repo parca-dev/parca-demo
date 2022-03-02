@@ -2,7 +2,7 @@ import seedrandom from "seedrandom";
 import promClient, { register } from "./prom-client";
 
 const httpRequestTimer = new promClient.Histogram({
-  name: "nextjs_random_api_response_time",
+  name: "nextjs_api_random_duration_seconds",
   help: "NextJS Random API Response time",
   registers: [register],
 });
