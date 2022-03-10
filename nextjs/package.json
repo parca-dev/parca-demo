@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "NODE_OPTIONS='--perf-basic-prof' next start -p 5000",
+    "start": "next start -p 5000",
     "lint": "next lint"
   },
   "dependencies": {
