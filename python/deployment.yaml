@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: demo-python
+    app.kubernetes.io/name: demo-python
   name: python
   namespace: parca
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: demo-python
+      app.kubernetes.io/name: demo-python
   template:
     metadata:
       labels:
-        app: demo-python
+        app.kubernetes.io/name: demo-python
     spec:
       containers:
       - image: parca-demo:python
-        name: parca-demo
+        name: python
         resources:
           limits:
             cpu: '100m'

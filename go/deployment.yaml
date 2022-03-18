@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: demo-go
+    app.kubernetes.io/name: demo-go
   name: go
   namespace: parca
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: demo-go
+      app.kubernetes.io/name: demo-go
   template:
     metadata:
       labels:
-        app: demo-go
+        app.kubernetes.io/name: demo-go
     spec:
       containers:
       - image: parca-demo:go
-        name: parca-demo
+        name: go
         resources:
           limits:
             cpu: '100m'
