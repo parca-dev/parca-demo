@@ -5,11 +5,11 @@ You can choose to deploy demo applications in various languages to that cluster 
 
 ## Lanaguages
 
-Go is currently fully supported.  
-We're actively working on improving support for other languages.  
+Compiled languages such as C/C++, Rust and Go are currently supported. (There are some requirements though, binaries should be compiled with [frame pointers](https://en.wikipedia.org/wiki/Call_stack#Stack_and_frame_pointers) and [debug symbols](https://en.wikipedia.org/wiki/Debug_symbol). There are planned improvements for loosening these requirements.`**`)
+
+We're actively working on improving support for other languages.
 Here is a list of issues where we track the progress:
 
-* Rust
 * [Python](https://github.com/parca-dev/parca-agent/issues/2)
 * [Java/JVM](https://github.com/parca-dev/parca-agent/issues/1)
 * [Ruby](https://github.com/parca-dev/parca-agent/issues/3)
@@ -20,7 +20,7 @@ Here is a list of issues where we track the progress:
 
 ## Contributions
 
-Contributions are welcome!  
+Contributions are welcome!
 If you're missing a language you're interested in, please just add a directory with a Dockerfile and deployment.yaml.
 
 ## Installation
@@ -34,9 +34,14 @@ If you're happy with the parameters, start the VM by running:
 ./start.sh
 ```
 
-Once minikube is up and running you can deploy Parca and the demos by running:
+Once minikube is up and running you can deploy Parca and monitoring stack:
 ```
-./deploy.sh
+./deploy-infra.sh
+```
+
+After that you can deploy the demo applications by running:
+```
+./deploy-demo.sh
 ```
 
 Note: This will take some time to pull down base images and build each language's demo.
@@ -57,3 +62,8 @@ namespace="parca", pod=~"python-.*"
 namespace="parca", pod=~"nodejs-.*"
 namespace="parca", pod=~"java-.*"
 ```
+
+## `**`
+
+- [Extended stack unwinding support.](https://github.com/parca-dev/parca-agent/issues/293)
+- Debuginfod support for finding debug symbols.
