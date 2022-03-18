@@ -1,31 +1,43 @@
 #!/bin/bash
 
+eval $(minikube -p parca-demo docker-env)
+
 echo "Building the Go demo"
 
-docker build -t parca-demo:go ./go
+make -C go build
 kubectl apply -f ./go/deployment.yaml
+
+echo "Building the C demo"
+
+make -C c build
+kubectl apply -f ./c/deployment.yaml
+
+echo "Building the C++ demo"
+
+make -C cpp build
+kubectl apply -f ./cpp/deployment.yaml
 
 echo "Building the Rust demo"
 
-docker build -t parca-demo:rust ./rust
+make -C rust build
 kubectl apply -f ./rust/deployment.yaml
 
 echo "Building the Python demo"
 
-docker build -t parca-demo:python ./python
+make -C python build
 kubectl apply -f ./python/deployment.yaml
 
 echo "Building the NodeJS demo"
 
-docker build -t parca-demo:nodejs ./nodejs
+make -C nodejs build
 kubectl apply -f ./nodejs/deployment.yaml
 
 echo "Building the NextJS demo"
 
-docker build -t parca-demo:nextjs ./nextjs
+make -C nextjs build
 kubectl apply -f ./nextjs/deployment.yaml
 
 echo "Building the Java demo"
 
-docker build -t parca-demo:java ./java
+make -C java build
 kubectl apply -f ./java/deployment.yaml
