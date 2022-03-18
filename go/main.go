@@ -16,7 +16,7 @@ func main() {
 // Calculates Fibonacci numbers starting with 1 000 000th.
 // Produces some CPU activity.
 func busyCPU() {
-	i := uint(1000000)
+	i := uint(1_000_000)
 	for {
 		log.Println("fibonacci number", i, fibonacci(i))
 		i++

@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo-cpp
+  name: cpp
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-cpp
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo-cpp
+    spec:
+      containers:
+      - image: parca-demo:cpp
+        name: cpp
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo-cpp-pie
+  name: cpp-pie
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-cpp-pie
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo-cpp-pie
+    spec:
+      containers:
+      - image: parca-demo:cpp-pie
+        name: cpp-pie
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo-cpp-clang
+  name: cpp-clang
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-cpp-clang
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo-cpp-clang
+    spec:
+      containers:
+      - image: parca-demo:cpp-clang
+        name: cpp-clang
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'

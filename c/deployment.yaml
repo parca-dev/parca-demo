@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo-c
+  name: c
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-c
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo-c
+    spec:
+      containers:
+      - image: parca-demo:c
+        name: c
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo-c-pie
+  name: c-pie
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-c-pie
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo-c-pie
+    spec:
+      containers:
+      - image: parca-demo:c-pie
+        name: c-pie
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'
