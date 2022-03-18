@@ -7,6 +7,11 @@ echo "Building the Go demo"
 make -C go build
 kubectl apply -f ./go/deployment.yaml
 
+echo "Building the CGo demo"
+
+make -C cgo build
+kubectl apply -f ./cgo/deployment.yaml
+
 echo "Building the C demo"
 
 make -C c build
