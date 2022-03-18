@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/name: demo-go
-  name: go
+    app.kubernetes.io/name: demo-cgo
+  name: cgo
   namespace: parca
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app.kubernetes.io/name: demo-go
+      app.kubernetes.io/name: demo-cgo
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: demo-go
+        app.kubernetes.io/name: demo-cgo
     spec:
       containers:
-      - image: parca-demo:go
-        name: go
+      - image: parca-demo:cgo
+        name: cgo
         resources:
           limits:
             cpu: '100m'
@@ -29,22 +29,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/name: demo-go-pie
-  name: go-pie
+    app.kubernetes.io/name: demo-cgo-pie
+  name: cgo-pie
   namespace: parca
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app.kubernetes.io/name: demo-go-pie
+      app.kubernetes.io/name: demo-cgo-pie
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: demo-go-pie
+        app.kubernetes.io/name: demo-cgo-pie
     spec:
       containers:
-      - image: parca-demo:go-pie
-        name: go-pie
+      - image: parca-demo:cgo-pie
+        name: cgo-pie
         resources:
           limits:
             cpu: '100m'
