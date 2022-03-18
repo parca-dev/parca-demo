@@ -1,3 +1,5 @@
+cargo-features = ["profile-rustflags"]
+
 [package]
 name = "rust"
 version = "0.1.0"
@@ -6,7 +8,7 @@ edition = "2018"
 
 [profile.release]
 debug = true
-force-frame-pointers = true
+rustflags = ["-C", "force-frame-pointers=on"] # https://github.com/rust-lang/cargo/pull/10217
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
