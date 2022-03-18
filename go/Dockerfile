@@ -1,10 +1,12 @@
 FROM golang:1.17-alpine
 
+ARG GO_BUILD_FLAGS
+
 WORKDIR /app
 
 COPY main.go .
 COPY go.mod .
 
-RUN go build -v -o parca-demo .
+RUN go build ${GO_BUILD_FLAGS} -v -o parca-demo .
 
 ENTRYPOINT ["./parca-demo"]

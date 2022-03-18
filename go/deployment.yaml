@@ -22,3 +22,30 @@ spec:
           limits:
             cpu: '100m'
             memory: '256Mi'
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo-go-pie
+  name: go-pie
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-go-pie
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo-go-pie
+    spec:
+      containers:
+      - image: parca-demo:go-pie
+        name: go-pie
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'
