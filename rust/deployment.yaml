@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: demo-rust
+    app.kubernetes.io/name: demo-rust
   name: rust
   namespace: parca
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: demo-rust
+      app.kubernetes.io/name: demo-rust
   template:
     metadata:
       labels:
-        app: demo-rust
+        app.kubernetes.io/name: demo-rust
     spec:
       containers:
       - image: parca-demo:rust
-        name: parca-demo
+        name: rust
         resources:
           limits:
             cpu: '100m'

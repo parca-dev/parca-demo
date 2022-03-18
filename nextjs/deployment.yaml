@@ -3,18 +3,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: demo-nextjs
+    app.kubernetes.io/name: demo-nextjs
   name: nextjs
   namespace: parca
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: demo-nextjs
+      app.kubernetes.io/name: demo-nextjs
   template:
     metadata:
       labels:
-        app: demo-nextjs
+        app.kubernetes.io/name: demo-nextjs
     spec:
       containers:
       - image: parca-demo:nextjs
@@ -32,7 +32,7 @@ kind: Service
 metadata:
   labels:
     service: demo-nextjs
-  name: demo-nextjs
+  name: nextjs
   namespace: parca
 spec:
   type: ClusterIP
@@ -41,12 +41,12 @@ spec:
     port: 5000
     targetPort: 5000
   selector:
-    app: demo-nextjs
+    app.kubernetes.io/name: demo-nextjs
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: demo-nextjs
+  name: nextjs
   namespace: parca
   labels:
     serviceMonitor: demo-nextjs

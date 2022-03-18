@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: demo-nodejs
+    app.kubernetes.io/name: demo-nodejs
   name: nodejs
   namespace: parca
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: demo-nodejs
+      app.kubernetes.io/name: demo-nodejs
   template:
     metadata:
       labels:
-        app: demo-nodejs
+        app.kubernetes.io/name: demo-nodejs
     spec:
       containers:
       - image: parca-demo:nodejs
-        name: parca-demo
+        name: nodejs
         resources:
           limits:
             cpu: '100m'
