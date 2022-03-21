@@ -41,7 +41,7 @@ Once minikube is up and running you can deploy Parca and monitoring stack:
 
 After that you can deploy the demo applications by running:
 ```
-./deploy-demo.sh
+./deploy-apps.sh
 ```
 
 Note: This will take some time to pull down base images and build each language's demo.
