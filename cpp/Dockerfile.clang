@@ -9,9 +9,11 @@ COPY main.cpp .
 
 RUN clang++ ${CLANG_FLAGS} -o parca-demo main.cpp
 
-FROM debian:stable-slim as runner
-RUN apt-get update && apt-get install libc6-dbg libstdc++6-10-dbg -y
+FROM ubuntu:focal as runner
+RUN apt-get update && apt-get install libc6-prof libstdc++6-10-dbg -y
 
 COPY --from=builder /app/parca-demo .
 
+ARG LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}
 CMD ["./parca-demo"]
