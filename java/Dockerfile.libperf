@@ -1,0 +1,32 @@
+# vim: ft=dockerfile
+FROM docker.io/fedora:37 as base
+
+# hadolint ignore=DL3041
+RUN dnf -y install --repo=fedora \
+      java \
+    && dnf -y clean all
+
+FROM docker.io/fedora:37 as build
+
+WORKDIR /src
+
+# hadolint ignore=DL3041
+RUN dnf -y install --repo=fedora \
+      java-devel \
+      perf \
+    && dnf -y clean all
+
+COPY . /src
+
+RUN ./gradlew build --no-daemon
+
+FROM base
+
+WORKDIR /app
+
+COPY --from=build /usr/lib64/libperf-jvmti.so /app
+COPY --from=build /src/build/libs/demo-0.0.1-SNAPSHOT.jar /app/demo.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseContainerSupport", "-XX:+PreserveFramePointer", "-agentpath:/app/libperf-jvmti.so", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/demo.jar"]
