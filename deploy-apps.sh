@@ -32,6 +32,11 @@ echo "Building the Python demo"
 make -C python build
 kubectl apply -f ./python/deployment.yaml
 
+echo "Building the PHP demo"
+
+make -C php build
+kubectl apply -f ./php/deployment.yaml
+
 echo "Building the NodeJS demo"
 
 make -C nodejs build
