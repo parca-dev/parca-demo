@@ -27,6 +27,11 @@ echo "Building the Rust demo"
 make -C rust build
 kubectl apply -f ./rust/deployment.yaml
 
+echo "Building the .NET demo"
+
+make -C dotnet build
+kubectl apply -f ./dotnet/deployment.yaml
+
 echo "Building the Python demo"
 
 make -C python build
