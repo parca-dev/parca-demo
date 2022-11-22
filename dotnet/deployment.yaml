@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo-dotnet
+  name: dotnet
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-dotnet
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo-dotnet
+    spec:
+      containers:
+      - image: parca-demo:dotnet
+        name: dotnet
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'
