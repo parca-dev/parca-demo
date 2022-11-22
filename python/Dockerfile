@@ -1,7 +1,9 @@
-FROM python:3.10-alpine
+FROM python:3.12-rc-bullseye
 
-WORKDIR /usr/src/app
+ENV PYTHONPERFSUPPORT=1
 
-COPY . .
+WORKDIR /app
 
-CMD [ "python", "./main.py" ]
+COPY main.py .
+
+CMD [ "python", "main.py" ]
