@@ -37,6 +37,11 @@ echo "Building the Python demo"
 make -C python build
 kubectl apply -f ./python/deployment.yaml
 
+echo "Building the Julia demo"
+
+make -C julia build
+kubectl apply -f ./julia/deployment.yaml
+
 echo "Building the PHP demo"
 
 make -C php build
