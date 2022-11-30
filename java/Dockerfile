@@ -1,20 +1,19 @@
-FROM docker.io/gradle:7.3.2-jdk11 AS build
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src
-RUN gradle build --no-daemon
+FROM docker.io/eclipse-temurin:11-jdk as build
 
-FROM docker.io/debian:11
+WORKDIR /src
 
-EXPOSE 8080
+COPY gradle ./gradle
+COPY build.gradle settings.gradle gradlew ./
+RUN ./gradlew --version
 
-RUN mkdir /app
+COPY . /src
+RUN ./gradlew build --no-daemon
 
-# hadolint ignore=DL3008
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends openjdk-11-jre-headless openjdk-11-dbg && \
-    rm -rf /var/lib/apt/lists/*
+FROM docker.io/eclipse-temurin:11-jre
 
-COPY --from=build /home/gradle/src/build/libs/demo-0.0.1-SNAPSHOT.jar /app/demo.jar
+WORKDIR /app
+
+COPY --from=build /src/build/libs/demo-0.0.1-SNAPSHOT.jar /app/demo.jar
 ADD https://github.com/parca-dev/perf-map-agent/releases/download/v0.0.1/libperfmap.so /app/libperfmap.so
 
-ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseContainerSupport", "-XX:+PreserveFramePointer", "-agentpath:/app/libperfmap.so", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/demo.jar"]
+ENTRYPOINT ["java", "-XX:+PreserveFramePointer", "-agentpath:/app/libperfmap.so", "-jar", "/app/demo.jar"]
