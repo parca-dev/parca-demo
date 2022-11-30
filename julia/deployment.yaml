@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo-julia
+  name: julia
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-julia
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo-julia
+    spec:
+      containers:
+      - image: parca-demo:julia
+        name: julia
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'
