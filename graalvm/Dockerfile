@@ -17,9 +17,9 @@ RUN curl -sSfo /tmp/sdkman-intall.sh 'https://get.sdkman.io' \
     && bash /tmp/sdkman-intall.sh
 
 RUN bash -c 'source ~/.sdkman/bin/sdkman-init.sh \
-        && sdk install gradle 7.5.1 \
-        && sdk install java 22.1.0.r11-grl \
-        && sdk use java 22.1.0.r11-grl \
+        && sdk install gradle 7.6 \
+        && sdk install java 22.3.r19-grl \
+        && sdk use java 22.3.r19-grl \
         && gu install native-image'
 
 COPY . .
