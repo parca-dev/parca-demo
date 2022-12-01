@@ -1,5 +1,7 @@
-FROM debian:stable as builder
-RUN apt-get update && apt-get install build-essential -y
+FROM docker.io/debian:stable as builder
+
+# hadolint ignore=DL3008
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential
 
 ARG GCC_FLAGS
 
@@ -9,11 +11,15 @@ COPY main.cpp .
 
 RUN g++ ${GCC_FLAGS} -o parca-demo main.cpp
 
-FROM ubuntu:focal as runner
-RUN apt-get update && apt-get install libc6-prof libstdc++6-10-dbg -y
+FROM docker.io/ubuntu:focal as runner
 
-COPY --from=builder /app/parca-demo .
+# hadolint ignore=DL3008
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends libc6-prof libstdc++6-10-dbg && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /app/parca-demo /bin
 
 ARG LD_LIBRARY_PATH
 ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH}
-CMD ["./parca-demo"]
+CMD ["/bin/parca-demo"]

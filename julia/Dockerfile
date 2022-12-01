@@ -1,4 +1,4 @@
-FROM julia:1.8.3-bullseye
+FROM docker.io/julia:1.8.3-bullseye
 
 ENV ENABLE_JITPROFILING=1
 

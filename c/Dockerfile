@@ -1,5 +1,7 @@
-FROM debian:stable as builder
-RUN apt-get update && apt-get install build-essential -y
+FROM docker.io/debian:stable as builder
+
+# hadolint ignore=DL3008
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential
 
 ARG GCC_FLAGS
 
@@ -9,9 +11,13 @@ COPY main.c .
 
 RUN gcc ${GCC_FLAGS} -o parca-demo main.c
 
-FROM debian:stable-slim as runner
-RUN apt-get update && apt-get install libc6-dbg -y
+FROM docker.io/debian:stable-slim as runner
 
-COPY --from=builder /app/parca-demo .
+# hadolint ignore=DL3008
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends libc6-dbg && \
+    rm -rf /var/lib/apt/lists/*
 
-CMD ["./parca-demo"]
+COPY --from=builder /app/parca-demo /bin
+
+CMD ["/bin/parca-demo"]

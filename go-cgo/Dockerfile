@@ -1,4 +1,4 @@
-FROM golang:1.17-bullseye as builder
+FROM docker.io/golang:1.17-bullseye as builder
 
 ARG GO_BUILD_FLAGS
 
@@ -10,9 +10,13 @@ COPY go.mod .
 ENV CGO_ENABLED=1
 RUN go build ${GO_BUILD_FLAGS} -v -o parca-demo .
 
-FROM debian:stable-slim as runner
-RUN apt-get update && apt-get install libc6-dbg -y
+FROM docker.io/debian:stable-slim as runner
 
-COPY --from=builder /app/parca-demo .
+# hadolint ignore=DL3008
+RUN apt-get update && \
+    apt-get -y --no-install-recommends install libc6-dbg && \
+    rm -rf /var/lib/apt/lists/*
 
-CMD ["./parca-demo"]
+COPY --from=builder /app/parca-demo /bin
+
+CMD ["/bin/parca-demo"]

@@ -1,4 +1,4 @@
-FROM node:17-alpine
+FROM docker.io/node:17-alpine
 
 WORKDIR /usr/src/app
 COPY main.js .
