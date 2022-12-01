@@ -1,7 +1,8 @@
 #!/bin/bash
 
 
-DEPLOYMENTS_GLOB=( ./*/deployment.yaml )
+DEPLOYMENT_FILE="deployment.yaml"
+DEPLOYMENTS_GLOB=( ./*/"$DEPLOYMENT_FILE" )
 STARTING_PROMPT="Available deployments:"
 SELECTION_PROMPT="Type to check deployments (again to uncheck, ENTER when done): "
 NOT_FOUND_ERROR="Error! Not found: "
@@ -13,6 +14,21 @@ g_invalidSelections=() # Used to track what response tokens did not match to a d
 g_deploymentFiles=() # Used to track the pathname of deployment.yaml files
 g_deploymentDirs=() # Used to track the dirs which contain a deployment.yaml file
 
+
+# This function gets called once before building any of the deployments are built
+function preBuildSteps () {
+  eval "$(minikube -p parca-demo docker-env)"
+}
+
+# This function gets called once for each deployment the user selected to build
+#
+# arg 1: the directory the deployment is found
+# arg 2: the path to the deployment file
+function buildSteps () {
+  echo "Building the '$1' demo"
+  make -C "$1" build
+  kubectl apply -f "$2"
+}
 
 # This function collects the names and the deployment.yaml files for each deployment
 function findDeployments () {
@@ -40,7 +56,7 @@ function toggleSelection () {
 # deployments with the same name and returns its 0-based index
 #
 # arg 1: user's response token
-function parseStringResponse () {
+function findDeploymentIndexFromString () {
   for i in "${!g_deploymentDirs[@]}" ; do
     if [ "${g_deploymentDirs[$i]}" == "$1" ] ; then
       echo "$i"
@@ -52,7 +68,7 @@ function parseStringResponse () {
 # 1-based index to a 0-based index
 #
 # arg 1: user's response token
-function parseIntegerResponse () {
+function findDeploymentIndexFromInteger () {
   if (( 1 <= $1 && $1 <= ${#g_selections[@]} )) ; then
     echo "$(($1 - 1))"
   fi
@@ -64,13 +80,13 @@ function parseIntegerResponse () {
 #
 # arg 1: user's response token
 function findDeploymentIndex () {
-  deploymentIndex=$(parseIntegerResponse "$1")
+  deploymentIndex=$(findDeploymentIndexFromInteger "$1")
   if [ "$deploymentIndex" ] ; then
     echo "$deploymentIndex"
     return
   fi
 
-  deploymentIndex=$(parseStringResponse "$1")
+  deploymentIndex=$(findDeploymentIndexFromString "$1")
   if [ "$deploymentIndex" ] ; then
     echo "$deploymentIndex"
     return
@@ -78,7 +94,7 @@ function findDeploymentIndex () {
 }
 
 # This function parses the user's whitespace-delimited response. It identifies which
-# tokens are valid and keeps track of which ones weren't
+# tokens are valid and keeps track of which ones aren't
 #
 # vargs: array of user's response tokens
 function parseResponse () {
@@ -86,6 +102,21 @@ function parseResponse () {
 
   for item in "$@" ; do
     deploymentIndex=$(findDeploymentIndex "$item")
+    if [ "$deploymentIndex" ] ; then
+      toggleSelection "$deploymentIndex"
+    else
+      g_invalidSelections+=( "$item" )
+    fi
+  done
+}
+
+# This function parses the arguments that were provided to this script in the terminal.
+# It identifies which tokens are valid and keeps track of which ones aren't.
+#
+# vargs: array of script's arguments
+function parseArguments () {
+  for item in "$@" ; do
+    deploymentIndex=$(findDeploymentIndexFromString "$item")
     if [ "$deploymentIndex" ] ; then
       toggleSelection "$deploymentIndex"
     else
@@ -108,6 +139,7 @@ function printDeploymentOptions () {
 function printInvalidSelections () {
   if [ "${#g_invalidSelections[@]}" -ne 0 ] ; then
     echo "$NOT_FOUND_ERROR ${g_invalidSelections[*]}"
+    return 1
   fi
 }
 
@@ -127,27 +159,8 @@ function promptForDeploymentSelection() {
   done
 }
 
-# This function gets called once before building any of the deployments are built
-function preBuildSteps () {
-  eval "$(minikube -p parca-demo docker-env)"
-}
-
-# This function gets called once for each deployment the user selected to build
-#
-# arg 1: the directory the deployment is found
-# arg 2: the path to the deployment file
-function buildSteps () {
-  echo "Building the '$1' demo"
-  make -C "$1" build
-  kubectl apply -f "$2"
-}
-
-function entrypoint () {
-  findDeployments
-  promptForDeploymentSelection
-
-  preBuildSteps
-
+# This function loops though all selected deployments and builds them
+function buildSelectedDeployments () {
   for i in "${!g_selections[@]}" ; do
     if [ "${g_selections[i]}" == "$SELECTION_CHAR" ] ; then
       buildSteps "${g_deploymentDirs[$i]}" "${g_deploymentFiles[$i]}"
@@ -155,4 +168,22 @@ function entrypoint () {
   done
 }
 
-entrypoint
+# This function build the deployments specified as arguments to this script if there are
+# any available. Otherwise, it will prompt the user to select some.
+#
+# vargs: array of script's arguments
+function selectDeploymentsFromArgumentsElsePrompt () {
+  if [ "$#" -ne 0 ] ; then
+    parseArguments "$@"
+    printInvalidSelections || exit 1
+  else
+    promptForDeploymentSelection
+  fi
+}
+
+
+
+findDeployments
+selectDeploymentsFromArgumentsElsePrompt "$@"
+preBuildSteps
+buildSelectedDeployments
