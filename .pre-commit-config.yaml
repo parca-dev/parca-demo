@@ -13,6 +13,7 @@ repos:
     rev: v0.8.0
     hooks:
       - id: shellcheck
+        exclude: /gradlew$
   - repo: https://github.com/scop/pre-commit-shfmt
     rev: v3.5.1-1
     hooks:
