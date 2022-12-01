@@ -1,7 +1,7 @@
 const fib = (n) => {
     switch (n) {
         case 1:
-        case 2:            
+        case 2:
             return 1;
         default:
             return fib(n-1) + fib(n-1)

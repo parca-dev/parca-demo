@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 minikube start -p parca-demo \
     --driver=virtualbox \
