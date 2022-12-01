@@ -11,4 +11,3 @@ The critical parts are:
 ```bash
 kubectl apply -f manifests/deployment.yaml
 ```
-

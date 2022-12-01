@@ -18,4 +18,3 @@ fib(X, Y) ->
         _ ->
             fib(X, Y)
     end.
-
