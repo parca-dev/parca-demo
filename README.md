@@ -31,22 +31,60 @@ Check out the `start.sh` and see if there is any parameter like CPUs and memory 
 
 If you're happy with the parameters, start the VM by running:
 ```
-./start.sh
+$ ./start.sh
 ```
 
 Once minikube is up and running you can deploy Parca and monitoring stack:
 ```
-./deploy-infra.sh
+$ ./deploy-infra.sh
 ```
 
 After that you can deploy the demo applications by running:
 ```
-./deploy-apps.sh
+$ ./deploy-apps.sh
+
+Available deployments:
+  1 [ ] c
+  2 [ ] cpp
+  3 [ ] dotnet
+  4 [ ] go-cgo
+  5 [ ] go
+  6 [ ] java
+  7 [ ] julia
+  8 [ ] nextjs
+  9 [ ] nodejs
+ 10 [ ] php
+ 11 [ ] python
+ 12 [ ] rust
+Type to check deployments (again to uncheck, ENTER when done):
+```
+
+Type in the number/name of the demos you want to deploy:
+```
+Type to check deployments (again to uncheck, ENTER when done): cpp 6 rust
+```
+```
+Available deployments:
+  1 [ ] c
+  2 [X] cpp
+  3 [ ] dotnet
+  4 [ ] go-cgo
+  5 [ ] go
+  6 [X] java
+  7 [ ] julia
+  8 [ ] nextjs
+  9 [ ] nodejs
+ 10 [ ] php
+ 11 [ ] python
+ 12 [X] rust
+Type to check deployments (again to uncheck, ENTER when done):
 ```
 
 Note: This will take some time to pull down base images and build each language's demo.
 
 At the end you should have a demo for each language in the cluster.
+
+Tip: You can also deploy the demos in one line: ```./deploy-apps.sh cpp java rust```
 
 ## Usage
 
