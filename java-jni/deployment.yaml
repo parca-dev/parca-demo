@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo-java-jni
+  name: java
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-java-jni
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo-java-jni
+    spec:
+      containers:
+      - image: parca-demo:java-jni
+        name: java
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'
