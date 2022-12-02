@@ -56,7 +56,7 @@ Available deployments:
  10 [ ] php
  11 [ ] python
  12 [ ] rust
-Type to check deployments (again to uncheck, ENTER when done): 
+Type to check deployments (again to uncheck, ENTER when done):
 ```
 
 Type in the number/name of the demos you want to deploy:
@@ -77,7 +77,7 @@ Available deployments:
  10 [ ] php
  11 [ ] python
  12 [X] rust
-Type to check deployments (again to uncheck, ENTER when done): 
+Type to check deployments (again to uncheck, ENTER when done):
 ```
 
 Note: This will take some time to pull down base images and build each language's demo.
