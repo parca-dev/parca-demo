@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/usr/bin/env bash
+set -euo pipefail
 
 minikube start -p parca-demo \
     --driver=virtualbox \

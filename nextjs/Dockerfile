@@ -1,10 +1,11 @@
-FROM node:17-alpine
+FROM docker.io/node:17-alpine
 
 WORKDIR /usr/src/app
+
+COPY package.json package-lock.json ./
+RUN ["npm", "clean-install"]
+
 COPY . .
-
-RUN ["npm", "install"]
-
 RUN ["npm", "run", "build"]
 
 ENV NODE_OPTIONS='--perf-basic-prof'

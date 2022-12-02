@@ -1,6 +1,6 @@
 #!/bin/bash
 
-eval $(minikube -p parca-demo docker-env)
+eval "$(minikube -p parca-demo docker-env)"
 
 echo "Building the Go demo"
 

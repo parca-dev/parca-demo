@@ -1,4 +1,4 @@
-FROM golang:1.17-alpine
+FROM docker.io/golang:1.17-alpine
 
 ARG GO_BUILD_FLAGS
 

@@ -1,4 +1,4 @@
-FROM python:3.12-rc-bullseye
+FROM docker.io/python:3.12-rc-bullseye
 
 ENV PYTHONPERFSUPPORT=1
 
