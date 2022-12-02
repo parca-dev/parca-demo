@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/user/bin/env bash
+set -euo pipefail
 
 
 DEPLOYMENT_FILE="deployment.yaml"
@@ -25,13 +26,15 @@ function preBuildSteps () {
 # arg 1: the directory the deployment is found
 # arg 2: the path to the deployment file
 function buildSteps () {
-  echo "Building the '$1' demo"
+  printf 'Building the "%s" demo\n' "${1}"
   make -C "$1" build
   kubectl apply -f "$2"
 }
 
 # This function collects the names and the deployment.yaml files for each deployment
 function findDeployments () {
+  local file
+
   for file in "${DEPLOYMENTS_GLOB[@]}" ;  do
     if [ -e "$file" ] ; then  # Make sure it isn't an empty match
       g_deploymentFiles+=("$file")
@@ -57,6 +60,8 @@ function toggleSelection () {
 #
 # arg 1: user's response token
 function findDeploymentIndexFromString () {
+  local i
+
   for i in "${!g_deploymentDirs[@]}" ; do
     if [ "${g_deploymentDirs[$i]}" == "$1" ] ; then
       echo "$i"
@@ -69,7 +74,7 @@ function findDeploymentIndexFromString () {
 #
 # arg 1: user's response token
 function findDeploymentIndexFromInteger () {
-  if (( 1 <= $1 && $1 <= ${#g_selections[@]} )) ; then
+  if [ 1 -le "$1" ] && [ "$1" -le "${#g_selections[@]}" ] ; then
     echo "$(($1 - 1))"
   fi
 }
@@ -80,6 +85,8 @@ function findDeploymentIndexFromInteger () {
 #
 # arg 1: user's response token
 function findDeploymentIndex () {
+  local deploymentIndex
+
   deploymentIndex=$(findDeploymentIndexFromInteger "$1")
   if [ "$deploymentIndex" ] ; then
     echo "$deploymentIndex"
@@ -98,9 +105,13 @@ function findDeploymentIndex () {
 #
 # vargs: array of user's response tokens
 function parseResponse () {
+  local item
+
   g_invalidSelections=()
 
   for item in "$@" ; do
+    local deploymentIndex
+
     deploymentIndex=$(findDeploymentIndex "$item")
     if [ "$deploymentIndex" ] ; then
       toggleSelection "$deploymentIndex"
@@ -115,7 +126,11 @@ function parseResponse () {
 #
 # vargs: array of script's arguments
 function parseArguments () {
+  local item
+
   for item in "$@" ; do
+    local deploymentIndex
+
     deploymentIndex=$(findDeploymentIndexFromString "$item")
     if [ "$deploymentIndex" ] ; then
       toggleSelection "$deploymentIndex"
@@ -128,6 +143,8 @@ function parseArguments () {
 # This function prints the list of deployments a user can select alongside an index
 # and a text-based checkbox to indicate if it selected already
 function printDeploymentOptions () {
+  local i
+
   echo # blank line
   echo "$STARTING_PROMPT"
   for i in "${!g_deploymentDirs[@]}" ; do
@@ -146,9 +163,11 @@ function printInvalidSelections () {
 # This function displays the list of deployments to the users and records their
 # input in a loop until they pass an empty line
 function promptForDeploymentSelection() {
+  local response
+
   while true ; do
     printDeploymentOptions
-    printInvalidSelections
+    printInvalidSelections && true # Don't exit if there were invalid selections
 
     read -p "$SELECTION_PROMPT" -ra response
     if [ "${#response[@]}" -eq 0 ] ; then
@@ -161,6 +180,8 @@ function promptForDeploymentSelection() {
 
 # This function loops though all selected deployments and builds them
 function buildSelectedDeployments () {
+  local i
+
   for i in "${!g_selections[@]}" ; do
     if [ "${g_selections[i]}" == "$SELECTION_CHAR" ] ; then
       buildSteps "${g_deploymentDirs[$i]}" "${g_deploymentFiles[$i]}"
@@ -175,7 +196,7 @@ function buildSelectedDeployments () {
 function selectDeploymentsFromArgumentsElsePrompt () {
   if [ "$#" -ne 0 ] ; then
     parseArguments "$@"
-    printInvalidSelections || exit 1
+    printInvalidSelections
   else
     promptForDeploymentSelection
   fi
