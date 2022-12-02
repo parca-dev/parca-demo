@@ -1,3 +1,4 @@
+# vim: ft=dockerfile
 FROM docker.io/debian:stable as builder
 
 # hadolint ignore=DL3008
