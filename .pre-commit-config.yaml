@@ -4,6 +4,7 @@ repos:
     rev: v4.4.0
     hooks:
       - id: end-of-file-fixer
+        exclude: \.patch$
       - id: trailing-whitespace
   - repo: https://github.com/hadolint/hadolint
     rev: v2.12.0

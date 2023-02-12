@@ -1,0 +1,20 @@
+commit 1d5a4168933d19df4784aa6c73a5a7653610cf04
+Author: Maxime Brunet <max@brnt.mx>
+Date:   Sat Feb 11 11:37:06 2023 -0800
+
+    Disable Frame Pointer Omission on Linux
+
+diff --git a/src/codegen.cpp b/src/codegen.cpp
+index 104f77f8d6..5a1284be6d 100644
+--- a/src/codegen.cpp
++++ b/src/codegen.cpp
+@@ -10,7 +10,7 @@
+ #if defined(_CPU_X86_)
+ #define JL_NEED_FLOATTEMP_VAR 1
+ #endif
+-#if defined(_OS_WINDOWS_) || defined(_OS_FREEBSD_)
++#if defined(_OS_WINDOWS_) || defined(_OS_LINUX_) || defined(_OS_FREEBSD_)
+ #define JL_DISABLE_FPO
+ #endif
+
+
