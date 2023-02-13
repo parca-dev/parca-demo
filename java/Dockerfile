@@ -17,4 +17,4 @@ RUN apt-get update && \
 COPY --from=build /home/gradle/src/build/libs/demo-0.0.1-SNAPSHOT.jar /app/demo.jar
 ADD https://github.com/parca-dev/perf-map-agent/releases/download/v0.0.1/libperfmap.so /app/libperfmap.so
 
-ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseContainerSupport", "-XX:+PreserveFramePointer", "-agentpath:/app/libperfmap.so", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/demo.jar"]
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseContainerSupport", "-XX:+PreserveFramePointer", "-agentpath:/app/libperfmap.so", "-Djava.security.egd=file:/dev/./urandom", "-jar","/app/demo.jar"]
