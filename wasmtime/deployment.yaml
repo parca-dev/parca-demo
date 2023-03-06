@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo-wasmtime
+  name: wasmtime
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-wasmtime
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo-wasmtime
+    spec:
+      containers:
+      - image: parca-demo:wasmtime
+        name: wasmtime
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'
