@@ -1,4 +1,4 @@
-#!/user/bin/env bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 DEPLOYMENT_FILE="deployment.yaml"

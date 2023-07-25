@@ -16,9 +16,35 @@ spec:
         app.kubernetes.io/name: demo-python
     spec:
       containers:
-      - image: parca-demo:python
-        name: python
-        resources:
-          limits:
-            cpu: '100m'
-            memory: '256Mi'
+        - image: parca-demo:python
+          name: python
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "256Mi"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo-python-no-frame-pointer
+  name: python-no-frame-pointer
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-python-no-frame-pointer
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo-python-no-frame-pointer
+    spec:
+      containers:
+        - image: parca-demo:python-no-frame-pointer
+          name: python
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "256Mi"

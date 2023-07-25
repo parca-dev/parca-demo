@@ -3,7 +3,8 @@ set -euo pipefail
 
 minikube start -p parca-demo \
     --driver=virtualbox \
-    --kubernetes-version=v1.22.3 \
+    --runtime=docker \
+    --kubernetes-version=stable \
     --cpus=4 \
     --memory=16gb \
     --disk-size=20gb \

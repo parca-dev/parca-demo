@@ -1,0 +1,10 @@
+# https://github.com/docker-library/python/blob/aa70e60e6cb94c633b5b1c68e14333436cc263c4/3.12-rc/slim-bullseye/Dockerfile
+FROM docker.io/python:3.12.0b4-bullseye
+
+ENV PYTHONPERFSUPPORT=1
+
+WORKDIR /app
+
+COPY main.py .
+
+CMD [ "python", "main.py" ]
