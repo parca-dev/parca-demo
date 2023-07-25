@@ -1,3 +1,5 @@
+# hadolint global ignore=DL3003,DL3008,DL3047,DL4006,SC2086
+
 # https://github.com/docker-library/python/blob/aa70e60e6cb94c633b5b1c68e14333436cc263c4/3.12-rc/slim-bullseye/Dockerfile
 FROM docker.io/python:3.12.0b4-bullseye
 
@@ -105,7 +107,7 @@ RUN set -eux; \
 RUN set -eux; \
 	for src in idle3 pydoc3 python3 python3-config; do \
 		dst="$(echo "$src" | tr -d 3)"; \
-        rm -vf "/usr/local/bin/$dst"; \
+		rm -vf "/usr/local/bin/$dst"; \
 		[ -s "/usr/local/bin/$src" ]; \
 		[ ! -e "/usr/local/bin/$dst" ]; \
 		ln -svTf "$src" "/usr/local/bin/$dst"; \
