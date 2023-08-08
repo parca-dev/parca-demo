@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo-graalvm-quarkus
+  name: graalvm-quarkus
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-graalvm-quarkus
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo-graalvm-quarkus
+    spec:
+      containers:
+      - image: parca-demo:graalvm-quarkus
+        name: graalvm-quarkus
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'

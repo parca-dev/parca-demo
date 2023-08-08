@@ -1,0 +1,43 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.2'
+	id 'io.spring.dependency-management' version '1.1.2'
+	id 'org.graalvm.buildtools.native' version '0.9.23'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'dev.parca'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+graalvmNative {
+  binaries{
+    main {
+      buildArgs.addAll([
+        '-H:-DeleteLocalSymbols',             // Do not use linker option to remove all local symbols from image
+        '-H:+PreserveFramePointer',           // Saves stack base pointer on the stack on method entry
+        '-H:+SourceLevelDebug',               // Preserve the local variable information for every Java source line
+        '-g',                                 // Generate debugging information
+        '-H:+StaticExecutableWithDynamicLibC' // Build a static binary except for libc
+      ])
+    }
+  }
+}
