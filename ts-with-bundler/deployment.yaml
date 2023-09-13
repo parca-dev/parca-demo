@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo-ts-with-bundler
+  name: ts-with-bundler
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-ts-with-bundler
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo-ts-with-bundler
+    spec:
+      containers:
+      - image: parca-demo:ts-with-bundler
+        name: ts-with-bundler
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'
