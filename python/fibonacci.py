@@ -1,5 +1,6 @@
 import time
 
+
 class Fibonacci:
     _memoization = {}
 
@@ -31,4 +32,4 @@ class Fibonacci:
 
     @staticmethod
     def display_result(number, result):
-        print(f"Fibonacci({number}) = {result}")
+        print("Fibonacci({}) = {}".format(number, result))
