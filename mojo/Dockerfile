@@ -1,7 +1,8 @@
+# hadolint ignore=DL3007
 FROM modular/mojo:latest as builder
 
 WORKDIR /app
-ADD main.mojo .
+COPY main.mojo .
 RUN mojo build main.mojo
 
 FROM python:3.11 as debuginfo
@@ -11,6 +12,6 @@ COPY --from=debuginfo /usr/local/lib/libpython3.11.so.1.0 /usr/local/lib/libpyth
 
 WORKDIR /app
 COPY --from=builder /app/main .
-ADD simple_interop.py .
+COPY simple_interop.py .
 ENV MOJO_PYTHON_LIBRARY=/usr/local/lib/libpython3.11.so.1.0
 ENTRYPOINT ["./main"]

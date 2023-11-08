@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ===----------------------------------------------------------------------=== #
-set -e
+set -ex
 
 # Usage
 # ==========
@@ -58,7 +58,7 @@ check_options() {
 build_image() {
     check_options
     echo "# Building image with ${container_engine}..."
-    ${container_engine} build --no-cache "${extra_cap}" \
+    ${container_engine} build --no-cache ${extra_cap:+"$extra_cap"} \
         --build-arg AUTH_KEY="${user_key}" \
         --pull -t modular/mojo-v"${mojo_ver}" \
         --file Dockerfile.mojo .

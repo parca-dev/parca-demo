@@ -22,13 +22,14 @@
 # ./build-image.sh --auth-key <your-modular-auth-key>
 #
 
+# hadolint global ignore=DL3008,DL3013,DL4001,DL4006,SC2046
 FROM ubuntu:20.04
 
 ARG DEFAULT_TZ=America/Los_Angeles
 ENV DEFAULT_TZ=$DEFAULT_TZ
 
 RUN apt-get update \
-  && DEBIAN_FRONTEND=noninteractive TZ=$DEFAULT_TZ apt-get install -y \
+  && DEBIAN_FRONTEND=noninteractive TZ=$DEFAULT_TZ apt-get install --no-install-recommends -y \
   tzdata \
   vim \
   nano \
@@ -39,18 +40,14 @@ RUN apt-get update \
   rm -rf /var/lib/apt/lists/*
 
 # Download the latest version of minicoda py3.8 for linux x86/x64.
-RUN curl -fsSL https://repo.anaconda.com/miniconda/$( wget -O - https://repo.anaconda.com/miniconda/ 2>/dev/null | grep -o 'Miniconda3-py38_[^"]*-Linux-x86_64.sh' | head -n 1) > /tmp/miniconda.sh \
+RUN curl -fsSL https://repo.anaconda.com/miniconda/$( wget -O -nv - https://repo.anaconda.com/miniconda/ 2>/dev/null | grep -o 'Miniconda3-py38_[^"]*-Linux-x86_64.sh' | head -n 1) > /tmp/miniconda.sh \
   && chmod +x /tmp/miniconda.sh \
   && /tmp/miniconda.sh -b -p /opt/conda
 
 ENV PATH=/opt/conda/bin:$PATH
-RUN conda init
-
-RUN pip install \
-  jupyterlab \
-  ipykernel \
+RUN conda init && pip install --no-cache-dir \
   matplotlib \
-  ipywidgets
+  numpy
 
 # A random default token
 ARG AUTH_KEY=5ca1ab1e
@@ -66,6 +63,3 @@ ENV PATH="$PATH:$MODULAR_HOME/pkg/packages.modular.com_mojo/bin"
 
 # Change permissions to allow for Apptainer/Singularity containers
 RUN chmod -R a+rwX /root
-
-RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
-CMD ["jupyter", "lab", "--ip='*'", "--NotebookApp.token=''", "--NotebookApp.password=''","--allow-root"]
