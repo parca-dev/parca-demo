@@ -29,21 +29,21 @@ container_engine=${container_engine:=docker}
 extra_cap=${extra_cap:=}
 while [ $# -gt 0 ]; do
     case "$1" in
-    --auth-key)
-        user_key="$2"
-        shift
-        ;;
-    --use-podman)
-        container_engine=podman
-        extra_cap="--cap-add SYS_PTRACE"
-        ;;
-    --mojo-version)
-        mojo_ver="$2"
-        shift
-        ;;
-    --*)
-        echo "Unrecognized option $1"
-        ;;
+        --auth-key)
+            user_key="$2"
+            shift
+            ;;
+        --use-podman)
+            container_engine=podman
+            extra_cap="--cap-add SYS_PTRACE"
+            ;;
+        --mojo-version)
+            mojo_ver="$2"
+            shift
+            ;;
+        --*)
+            echo "Unrecognized option $1"
+            ;;
     esac
     shift $(($# > 0 ? 1 : 0))
 done
