@@ -1,5 +1,6 @@
 import signal
 import sys
+import queue
 
 from concurrent.futures import ThreadPoolExecutor
 from threading import Semaphore
