@@ -1,9 +1,9 @@
 # parca-demo
 
 This parca-demo repository contains a minikube virtual machine that runs Kubernetes with Parca and the agent.
-You can choose to deploy demo applications in various languages to that cluster to checkout each languages' support.
+You can choose to deploy demo applications in various languages to that cluster to check out each language's support.
 
-## Lanaguages
+## Languages
 
 Compiled languages such as C/C++, Rust and Go are currently supported. (There are some requirements though, binaries should be compiled with [frame pointers](https://en.wikipedia.org/wiki/Call_stack#Stack_and_frame_pointers) and [debug symbols](https://en.wikipedia.org/wiki/Debug_symbol). There are planned improvements for loosening these requirements.`**`)
 
@@ -82,7 +82,7 @@ Type to check deployments (again to uncheck, ENTER when done):
 
 Note: This will take some time to pull down base images and build each language's demo.
 
-At the end you should have a demo for each language in the cluster.
+At the end, you should have a demo for each language in the cluster.
 
 Tip: You can also deploy the demos in one line: ```./deploy-apps.sh cpp java rust```
 
@@ -91,7 +91,7 @@ Tip: You can also deploy the demos in one line: ```./deploy-apps.sh cpp java rus
 Access Parca by port-forwarding to it by running: `kubectl port-forward -n parca svc/parca 7070`.
 Open http://localhost:7070/
 
-Once you selected the profile type you want to see (currently only CPU Samples) you can query for languages by using these selectors:
+Once you have selected the profile type you want to see (currently only CPU Samples), you can query for languages by using these selectors:
 ```
 
 namespace="parca", pod=~"go-.*"
