@@ -1,0 +1,11 @@
+{
+  "name": "@ps-ts-with-bundler/monorepo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/app/*",
+    "packages/shared/*"
+  ]
+}
