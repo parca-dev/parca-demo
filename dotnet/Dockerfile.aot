@@ -1,0 +1,21 @@
+# vim: ft=dockerfile
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS builder
+
+# hadolint ignore=DL3008
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        clang \
+        zlib1g-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /source
+
+COPY . .
+
+RUN dotnet publish /p:PublishAot=true -c Release -o /out
+
+FROM mcr.microsoft.com/dotnet/runtime-deps:7.0
+
+COPY --from=builder /out/demo /bin
+
+CMD ["/bin/demo"]
