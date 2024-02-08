@@ -18,7 +18,9 @@ FROM build AS publish
 RUN dotnet publish "demo.csproj" -c Release -o /app/publish
 
 FROM base AS final
+ENV DOTNET_EnableWriteXorExecute=0
 ENV DOTNET_PerfMapEnabled=1
+ENV DOTNET_EnableEventLog=1
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "demo.dll"]
