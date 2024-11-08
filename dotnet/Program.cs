@@ -4,9 +4,9 @@ namespace Demo
 {
   class Program
   {
-    static int Fibonacci(int n)
+    static long Fibonacci(int n)
     {
-      int a = 0, b = 1, tmp;
+      long a = 0, b = 1, tmp;
 
       for (int i = 0; i < n; i++)
       {
@@ -22,7 +22,7 @@ namespace Demo
     {
       while (true)
       {
-        Console.WriteLine(Fibonacci(42));
+        Console.WriteLine(Fibonacci(1000000000));
       }
     }
   }
