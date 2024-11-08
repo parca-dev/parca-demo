@@ -4,9 +4,8 @@ metadata:
   labels:
     app.kubernetes.io/name: demo-dotnet
   name: dotnet
-  namespace: parca
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: demo-dotnet
@@ -16,7 +15,8 @@ spec:
         app.kubernetes.io/name: demo-dotnet
     spec:
       containers:
-      - image: parca-demo:dotnet
+      - image: quay.io/brancz/parca-demo-dotnet:latest
+        imagePullPolicy: Always
         name: dotnet
         resources:
           limits:
