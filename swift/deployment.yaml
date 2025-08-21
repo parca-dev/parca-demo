@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo-swift
+  name: swift 
+  namespace: parca
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: demo-swift
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: demo-swift
+    spec:
+      containers:
+      - image: parca-demo:swift
+        name: rust
+        resources:
+          limits:
+            cpu: '100m'
+            memory: '256Mi'
