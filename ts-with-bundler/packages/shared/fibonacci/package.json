@@ -1,0 +1,6 @@
+{
+  "name": "@ps-ts-with-bundler/fibonacci",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "license": "MIT"
+}

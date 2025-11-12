@@ -1,0 +1,17 @@
+{
+  "name": "@ps-ts-with-bundler/server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack"
+  },
+  "dependencies": {
+    "@ps-ts-with-bundler/sum": "1.0.0",
+    "@ps-ts-with-bundler/fibonacci": "1.0.0",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.2.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+}
